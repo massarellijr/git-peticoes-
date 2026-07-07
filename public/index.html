@@ -6,7 +6,7 @@
     <title>Git Petições - Plataforma Open-Source</title>
     <style>
         :root {
-            --bg-color: #0d1117; /* Fundo estilo GitHub/Gemini Dark */
+            --bg-color: #0d1117;
             --card-bg: #161b22;
             --border-color: #30363d;
             --text-color: #c9d1d9;
@@ -30,196 +30,50 @@
             min-height: 100vh;
         }
 
-        .wrapper {
-            width: 100%;
-            max-width: 1012px;
-        }
+        .wrapper { width: 100%; max-width: 1012px; }
 
-        /* Topo inspirado no ecossistema Open-Source */
-        header {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            margin-bottom: 32px;
-        }
+        header { border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 32px; }
+        .badge-status { display: inline-block; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; color: #58a6ff; border: 1px solid #388bfd; border-radius: 2em; margin-bottom: 12px; }
+        h1 { font-size: 2rem; font-weight: 600; color: var(--text-light); margin-bottom: 8px; }
+        header .meta { font-size: 0.85rem; color: var(--text-muted); }
 
-        .badge-status {
-            display: inline-block;
-            padding: 4px 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #58a6ff;
-            border: 1px solid #388bfd;
-            border-radius: 2em;
-            margin-bottom: 12px;
-        }
+        .layout { display: grid; grid-template-columns: 1fr; gap: 24px; }
+        @media (min-width: 768px) { .layout { grid-template-columns: 1.8fr 1.2fr; } }
 
-        h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 8px;
-        }
+        .content-area { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 24px; }
+        .content-area h2 { font-size: 1.25rem; color: var(--text-light); margin-bottom: 16px; font-weight: 600; }
+        .content-area p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
 
-        header .meta {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 16px; }
+        .data-table th { text-align: left; padding: 12px; background-color: rgba(110, 118, 129, 0.1); color: var(--text-light); font-weight: 600; border-bottom: 2px solid var(--border-color); }
+        .data-table td { padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-color); }
 
-        /* Layout de Duas Colunas (Fiel ao Decidim/openPetition) */
-        .layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-        }
+        .sidebar { display: flex; flex-direction: column; gap: 24px; }
+        .widget-box { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; }
 
-        @media (min-width: 768px) {
-            .layout { grid-template-columns: 1.8fr 1.2fr; }
-        }
+        /* LÓGICA 2: Barra Dinâmica */
+        .progress-header { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; color: var(--text-light); }
+        .bar-bg { background-color: #21262d; height: 10px; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
+        .bar-fill { background: var(--gemini-gradient); width: 84%; height: 100%; transition: width 0.8s ease; }
 
-        /* Coluna da Esquerda: Conteúdo Técnico e Tabelas */
-        .content-area {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 24px;
-        }
-
-        .content-area h2 {
-            font-size: 1.25rem;
-            color: var(--text-light);
-            margin-bottom: 16px;
-            font-weight: 600;
-        }
-
-        .content-area p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
-
-        /* Tabela de Dados Línguisticos */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-            margin-top: 16px;
-        }
-
-        .data-table th {
-            text-align: left;
-            padding: 12px;
-            background-color: rgba(110, 118, 129, 0.1);
-            color: var(--text-light);
-            font-weight: 600;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        .data-table td {
-            padding: 12px;
-            border-bottom: 1px solid var(--border-color);
-            color: var(--text-color);
-        }
-
-        /* Coluna da Direita: Módulos de Ação Integrados com API */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .widget-box {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 20px;
-        }
-
-        /* Painel de Assinaturas */
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-            color: var(--text-light);
-        }
-
-        .bar-bg {
-            background-color: #21262d;
-            height: 8px;
-            border-radius: 6px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .bar-fill {
-            background: var(--gemini-gradient);
-            width: 84%;
-            height: 100%;
-            transition: width 0.4s ease;
-        }
-
-        /* Área de Autenticação da API */
-        .api-auth-zone {
-            text-align: center;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 10px 16px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 6px;
-            border: 1px solid transparent;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.2s, transform 0.1s;
-        }
-
+        .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 16px; font-size: 0.95rem; font-weight: 600; border-radius: 6px; border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: transform 0.1s; }
         .btn:active { transform: scale(0.98); }
+        .btn-github { background-color: var(--github-green); color: #fff; }
+        .btn-github svg { margin-right: 8px; fill: currentColor; }
+        .btn-paypal { background-color: #0070ba; color: #fff; border: 1px solid #005ea6; margin-top: 12px; }
 
-        .btn-github {
-            background-color: var(--github-green);
-            color: #fff;
-        }
+        /* LÓGICA 3: Funil de Conversão (Modal) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; text-align: center; max-width: 400px; width: 100%; }
+        .modal-content h3 { color: var(--text-light); margin-bottom: 10px; font-size: 1.3rem; }
+        .modal-content p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
 
-        .btn-github:hover { background-color: var(--github-green-hover); }
+        /* LÓGICA 1: Notificações de Prova Social */
+        .toast-container { position: fixed; bottom: 20px; left: 20px; z-index: 999; }
+        .toast { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-light); padding: 12px 16px; border-radius: 6px; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transform: translateY(100px); opacity: 0; transition: all 0.5s ease; margin-top: 10px; display: flex; align-items: center; gap: 10px;}
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast-icon { background: var(--github-green); width: 8px; height: 8px; border-radius: 50%; }
 
-        /* Ícone simples do GitHub simulado por SVG */
-        .btn svg {
-            margin-right: 8px;
-            fill: currentColor;
-        }
-
-        .btn-paypal {
-            background-color: #0070ba;
-            color: #fff;
-            border: 1px solid #005ea6;
-            margin-top: 12px;
-        }
-
-        .btn-paypal:hover { background-color: #005ea6; }
-
-        /* Telas de Feedback Funcionais */
-        .success-overlay {
-            display: none;
-            background-color: rgba(56, 139, 253, 0.1);
-            border: 1px dashed #388bfd;
-            border-radius: 6px;
-            padding: 16px;
-            text-align: center;
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .paypal-title {
-            font-size: 1rem;
-            color: var(--text-light);
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
     </style>
 </head>
 <body>
@@ -235,16 +89,8 @@
             <div class="content-area">
                 <h2>Manifesto pela Democracia Tecnológica</h2>
                 <p>Grandes ecossistemas precisam reconhecer e expandir a representação de dados de múltiplos ecossistemas linguísticos. Este projeto automatiza a validação de dados através da API do GitHub para registrar apoios legítimos de desenvolvedores em prol da acessibilidade global.</p>
-                
-                <h2>Mapeamento de Falantes Globais</h2>
                 <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>Idioma</th>
-                            <th>Distribuição</th>
-                            <th>Total Falantes</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Idioma</th><th>Distribuição</th><th>Total Falantes</th></tr></thead>
                     <tbody>
                         <tr><td>Inglês</td><td>Global</td><td>~1,5 Bilhão</td></tr>
                         <tr><td>Mandarim</td><td>Ásia</td><td>~1,1 Bilhão</td></tr>
@@ -260,56 +106,100 @@
                 <div class="widget-box">
                     <div class="progress-header">
                         <span><strong><span id="counter">842</span></strong> assinaturas</span>
-                        <span style="color: var(--text-muted)">Meta: 1.000</span>
+                        <span style="color: var(--text-muted)">Meta: <span id="goal">1000</span></span>
                     </div>
-                    <div class="bar-bg">
-                        <div class="bar-fill" id="progressFill"></div>
-                    </div>
+                    <div class="bar-bg"><div class="bar-fill" id="progressFill"></div></div>
 
-                    <div class="api-auth-zone" id="authBox">
-                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; text-align: left;">
-                            Para garantir a integridade e evitar assinaturas falsas, autentique-se com sua conta de desenvolvedor.
-                        </p>
+                    <div id="authBox">
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Para garantir a integridade, autentique-se com sua conta de desenvolvedor.</p>
                         <button class="btn btn-github" id="btnSign">
                             <svg height="16" viewBox="0 0 16 16" width="16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                             Assinar via GitHub API
                         </button>
                     </div>
-
-                    <div class="success-overlay" id="successBox">
-                        <strong>✓ Conectado via GitHub API</strong><br>
-                        <span style="font-size: 0.8rem; color: var(--text-muted)">Assinatura computada e registrada na blockchain do repositório!</span>
-                    </div>
-                </div>
-
-                <div class="widget-box" style="border-color: rgba(155, 81, 224, 0.4);">
-                    <div class="paypal-title">Apoie a Infraestrutura</div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
-                        Mantenha o servidor online e a API rodando de forma livre e descentralizada.
-                    </p>
-                    <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=massarellijr@hotmail.com&currency_code=BRL&source=url" class="btn btn-paypal" target="_blank">
-                        Doar com PayPal
-                    </a>
+                    <div id="successBox" style="display:none; color: var(--github-green); font-weight: bold; text-align: center;">✓ Assinatura Registrada!</div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Área da Lógica 1: Toasts -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Área da Lógica 3: Funil de Conversão -->
+    <div class="modal-overlay" id="donationModal">
+        <div class="modal-content">
+            <h3>🎉 Obrigado por assinar!</h3>
+            <p>Seu apoio foi registrado com sucesso. Para que esta petição alcance mais pessoas e mantenha nossos servidores online, considere fazer uma doação.</p>
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=massarellijr@hotmail.com&currency_code=BRL&source=url" class="btn btn-paypal" target="_blank" onclick="fecharModal()">
+                Doar com PayPal
+            </a>
+            <button onclick="fecharModal()" style="margin-top: 15px; background: none; border: none; color: var(--text-muted); cursor: pointer; text-decoration: underline;">Talvez mais tarde</button>
+        </div>
+    </div>
+
     <script>
-        // Lógica de simulação da API para feedback instantâneo e funcional
+        /* --- LÓGICA 2: META DINÂMICA E BOTÃO --- */
+        let assinaturas = 842;
+        let meta = 1000;
+
         document.getElementById('btnSign').addEventListener('click', function() {
-            // Esconde a área de autenticação e mostra o sucesso
             document.getElementById('authBox').style.display = 'none';
             document.getElementById('successBox').style.display = 'block';
             
-            // Incrementa o contador de assinaturas
-            let counterEl = document.getElementById('counter');
-            let currentCount = parseInt(counterEl.innerText);
-            counterEl.innerText = currentCount + 1;
+            assinaturas++;
+            atualizarTermometro();
 
-            // Ajusta sutilmente a barra de progresso para dar peso visual
-            document.getElementById('progressFill').style.width = '85%';
+            // Lógica 3: Abre o Modal de Funil após 1 segundo
+            setTimeout(() => {
+                document.getElementById('donationModal').style.display = 'flex';
+            }, 800);
         });
+
+        function atualizarTermometro() {
+            if (assinaturas >= meta) meta = meta * 2; // Dobra a meta se bater
+            
+            document.getElementById('counter').innerText = assinaturas;
+            document.getElementById('goal').innerText = meta;
+            
+            let porcentagem = (assinaturas / meta) * 100;
+            document.getElementById('progressFill').style.width = porcentagem + '%';
+        }
+
+        function fecharModal() {
+            document.getElementById('donationModal').style.display = 'none';
+        }
+
+        /* --- LÓGICA 1: PROVA SOCIAL (SIMULADOR DE NOTIFICAÇÕES) --- */
+        const nomes = ["Lucas R.", "Maria S.", "DevOps_Master", "Kátia", "João Pedro", "Ana C.", "TechGuru"];
+        const acoes = ["acabou de assinar!", "apoiou a causa.", "assinou via GitHub."];
+
+        function mostrarNotificacao() {
+            let nome = nomes[Math.floor(Math.random() * nomes.length)];
+            let acao = acoes[Math.floor(Math.random() * acoes.length)];
+            
+            let toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = '<div class="toast-icon"></div> <span><strong>' + nome + '</strong> ' + acao + '</span>';
+            
+            document.getElementById('toastContainer').appendChild(toast);
+            
+            // Animação de entrada
+            setTimeout(() => toast.classList.add('show'), 100);
+            
+            // Faz a assinatura fictícia subir o termômetro lentamente
+            assinaturas++;
+            atualizarTermometro();
+
+            // Remove após 4 segundos
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 500);
+            }, 4000);
+        }
+
+        // Dispara uma notificação aleatória a cada 8 a 15 segundos
+        setInterval(mostrarNotificacao, Math.floor(Math.random() * (15000 - 8000 + 1)) + 8000);
     </script>
 </body>
 </html>
