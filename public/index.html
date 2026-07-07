@@ -1,34 +1,50 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head><script src="https://cdn.tailwindcss.com"></script></head>
-<body class="bg-gray-900 text-white p-6">
-    <h1 class="text-3xl font-bold mb-4">GitPeticoes</h1>
-    
-    <div class="bg-gray-800 p-4 rounded mb-6">
-        <input id="title" placeholder="Título" class="w-full p-2 mb-2 text-black"><br>
-        <textarea id="body" placeholder="Manifesto" class="w-full p-2 text-black"></textarea>
-        <button onclick="enviar()" class="bg-blue-600 p-2 mt-2 w-full">Criar Petição</button>
-    </div>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Petições & Idiomas</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; text-align: center; }
+        header { background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; }
+        .btn-doe { display: inline-block; background-color: #0070ba; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; }
+    </style>
+</head>
+<body>
 
-    <div id="lista"></div>
+    <header>
+        <h1>Git Petições</h1>
+        <p>Acompanhe dados importantes e apoie este projeto.</p>
+    </header>
 
-    <script>
-        async function carregar() {
-            const res = await fetch('/api/peticoes');
-            const data = await res.json();
-            document.getElementById('lista').innerHTML = data.map(i => `<div class="bg-gray-700 p-2 mb-2">${i.title}</div>`).join('');
-        }
-        async function enviar() {
-            const title = document.getElementById('title').value;
-            const body = document.getElementById('body').value;
-            await fetch('/api/peticoes', { 
-                method: 'POST', 
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({title, body}) 
-            });
-            carregar();
-        }
-        carregar();
-    </script>
+    <main>
+        <h2>Idiomas mais falados no mundo</h2>
+        <table>
+            <tr><th>Idioma</th><th>Estimativa de Falantes</th></tr>
+            <tr><td>Inglês</td><td>~1,5 bilhão</td></tr>
+            <tr><td>Mandarim</td><td>~1,1 bilhão</td></tr>
+            <tr><td>Hindi</td><td>~610 milhões</td></tr>
+            <tr><td>Espanhol</td><td>~560 milhões</td></tr>
+            <tr><td>Francês</td><td>~310 milhões</td></tr>
+            <tr><td>Português</td><td>~265 milhões</td></tr>
+        </table>
+
+        <hr style="margin: 40px 0;">
+
+        <h3>Apoie este projeto</h3>
+        <p>Se você gostou deste conteúdo, considere ajudar com uma doação via PayPal.</p>
+        <a href="https://www.paypal.com/paypalme/mauriciomassarellijr" class="btn-doe" target="_blank">
+            Doar com PayPal
+        </a>
+    </main>
+
 </body>
 </html>
+
+
+
+
+eof
