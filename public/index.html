@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git Petições - Plataforma Open-Source</title>
+    <title>GitPeticoes - Plataforma Descentralizada</title>
     <style>
         :root {
             --bg-color: #0d1117;
@@ -14,7 +14,7 @@
             --text-muted: #8b949e;
             --gemini-gradient: linear-gradient(135deg, #4285f4, #9b51e0, #e8417c);
             --github-green: #238636;
-            --github-green-hover: #2ea043;
+            --btn-purple: #5865F2; /* Cor inspirada no botão da imagem */
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,7 +23,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            padding: 24px 16px;
+            padding: 40px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -32,16 +32,62 @@
 
         .wrapper { width: 100%; max-width: 1012px; }
 
-        header { border-bottom: 1px solid var(--border-color); padding-bottom: 20px; margin-bottom: 32px; }
-        .badge-status { display: inline-block; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; color: #58a6ff; border: 1px solid #388bfd; border-radius: 2em; margin-bottom: 12px; }
-        h1 { font-size: 2rem; font-weight: 600; color: var(--text-light); margin-bottom: 8px; }
-        header .meta { font-size: 0.85rem; color: var(--text-muted); }
+        /* CABEÇALHO ATUALIZADO */
+        header { margin-bottom: 40px; text-align: left; }
+        h1 { font-size: 2.2rem; font-weight: 700; color: var(--text-light); margin-bottom: 10px; }
+        header p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; }
 
+        /* NOVO MÓDULO: CRIAR PETIÇÃO */
+        .create-box {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 50px;
+            border: 1px solid var(--border-color);
+        }
+        .create-box h2 { font-size: 1.4rem; color: var(--text-light); margin-bottom: 24px; }
+        
+        .form-group { margin-bottom: 20px; text-align: left; }
+        .form-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            background-color: #010409;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #58a6ff; }
+        
+        .btn-publish {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--btn-purple);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+            margin-top: 10px;
+        }
+        .btn-publish:active { transform: scale(0.98); }
+        .btn-publish:hover { opacity: 0.9; }
+
+        /* SEÇÃO: PETIÇÕES EM ANDAMENTO */
+        .section-title { font-size: 1.6rem; font-weight: 700; color: var(--text-light); margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+
+        /* MÓDULO DA PETIÇÃO EXISTENTE */
         .layout { display: grid; grid-template-columns: 1fr; gap: 24px; }
         @media (min-width: 768px) { .layout { grid-template-columns: 1.8fr 1.2fr; } }
 
-        .content-area { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 24px; }
-        .content-area h2 { font-size: 1.25rem; color: var(--text-light); margin-bottom: 16px; font-weight: 600; }
+        .content-area { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; }
+        .content-area h3 { font-size: 1.25rem; color: var(--text-light); margin-bottom: 16px; font-weight: 600; }
         .content-area p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
 
         .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 16px; }
@@ -49,54 +95,77 @@
         .data-table td { padding: 12px; border-bottom: 1px solid var(--border-color); color: var(--text-color); }
 
         .sidebar { display: flex; flex-direction: column; gap: 24px; }
-        .widget-box { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; }
+        .widget-box { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; }
 
-        /* LÓGICA 2: Barra Dinâmica */
+        /* Elementos Interativos Mantidos */
         .progress-header { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; color: var(--text-light); }
         .bar-bg { background-color: #21262d; height: 10px; border-radius: 6px; overflow: hidden; margin-bottom: 20px; }
         .bar-fill { background: var(--gemini-gradient); width: 84%; height: 100%; transition: width 0.8s ease; }
 
-        .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 16px; font-size: 0.95rem; font-weight: 600; border-radius: 6px; border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: transform 0.1s; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 12px 16px; font-size: 0.95rem; font-weight: 600; border-radius: 8px; border: 1px solid transparent; cursor: pointer; text-decoration: none; transition: transform 0.1s; }
         .btn:active { transform: scale(0.98); }
         .btn-github { background-color: var(--github-green); color: #fff; }
         .btn-github svg { margin-right: 8px; fill: currentColor; }
         .btn-paypal { background-color: #0070ba; color: #fff; border: 1px solid #005ea6; margin-top: 12px; }
 
-        /* LÓGICA 3: Funil de Conversão (Modal) */
+        /* Modais e Toasts */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 30px; text-align: center; max-width: 400px; width: 100%; }
+        .modal-content { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 30px; text-align: center; max-width: 400px; width: 100%; }
         .modal-content h3 { color: var(--text-light); margin-bottom: 10px; font-size: 1.3rem; }
         .modal-content p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; }
 
-        /* LÓGICA 1: Notificações de Prova Social */
         .toast-container { position: fixed; bottom: 20px; left: 20px; z-index: 999; }
-        .toast { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-light); padding: 12px 16px; border-radius: 6px; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transform: translateY(100px); opacity: 0; transition: all 0.5s ease; margin-top: 10px; display: flex; align-items: center; gap: 10px;}
+        .toast { background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-light); padding: 12px 16px; border-radius: 8px; font-size: 0.85rem; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transform: translateY(100px); opacity: 0; transition: all 0.5s ease; margin-top: 10px; display: flex; align-items: center; gap: 10px;}
         .toast.show { transform: translateY(0); opacity: 1; }
         .toast-icon { background: var(--github-green); width: 8px; height: 8px; border-radius: 50%; }
-
     </style>
 </head>
 <body>
 
     <div class="wrapper">
+        <!-- HEADER IDÊNTICO À IMAGEM -->
         <header>
-            <div class="badge-status">API Ativa & Verificada</div>
-            <h1>Preservação Global e Acessibilidade de Idiomas via API</h1>
-            <div class="meta">Iniciado por <strong>Plataforma Git Petições</strong> &bull; Código Aberto (MIT)</div>
+            <h1>GitPeticoes</h1>
+            <p>Peticoes publicas descentralizadas usando o ecossistema GitHub.</p>
         </header>
 
+        <!-- NOVO FORMULÁRIO CENTRAL -->
+        <div class="create-box">
+            <h2>Criar Nova Peticao</h2>
+            <form id="formCriar">
+                <div class="form-group">
+                    <label>Seu Nome</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Titulo da Peticao</label>
+                    <input type="text" required>
+                </div>
+                <div class="form-group">
+                    <label>Manifesto / Descricao</label>
+                    <textarea rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn-publish">Publicar no GitHub</button>
+            </form>
+            <div id="msgCriacao" style="display:none; color: #58a6ff; font-weight: bold; text-align: center; margin-top: 15px;">
+                ✓ Solicitação enviada! Integração com API pendente.
+            </div>
+        </div>
+
+        <!-- LISTAGEM DE PETIÇÕES ATIVAS -->
+        <h2 class="section-title">Peticoes em Andamento</h2>
+
+        <!-- PETIÇÃO EXISTENTE (Nossa estrutura mantida!) -->
         <div class="layout">
             <div class="content-area">
-                <h2>Manifesto pela Democracia Tecnológica</h2>
-                <p>Grandes ecossistemas precisam reconhecer e expandir a representação de dados de múltiplos ecossistemas linguísticos. Este projeto automatiza a validação de dados através da API do GitHub para registrar apoios legítimos de desenvolvedores em prol da acessibilidade global.</p>
+                <div style="display: inline-block; padding: 4px 10px; font-size: 0.75rem; font-weight: 600; color: #58a6ff; border: 1px solid #388bfd; border-radius: 2em; margin-bottom: 12px;">Em votação</div>
+                <h3>Preservação Global e Acessibilidade de Idiomas via API</h3>
+                <p>Grandes ecossistemas precisam reconhecer e expandir a representação de dados de múltiplos ecossistemas linguísticos. Este projeto automatiza a validação de dados através da API do GitHub para registrar apoios legítimos em prol da acessibilidade global.</p>
                 <table class="data-table">
                     <thead><tr><th>Idioma</th><th>Distribuição</th><th>Total Falantes</th></tr></thead>
                     <tbody>
                         <tr><td>Inglês</td><td>Global</td><td>~1,5 Bilhão</td></tr>
                         <tr><td>Mandarim</td><td>Ásia</td><td>~1,1 Bilhão</td></tr>
-                        <tr><td>Hindi</td><td>Índia</td><td>~610 Milhões</td></tr>
-                        <tr><td>Espanhol</td><td>Américas / Europa</td><td>~560 Milhões</td></tr>
-                        <tr><td>Francês</td><td>Europa / África</td><td>~310 Milhões</td></tr>
                         <tr><td>Português</td><td>Global</td><td>~265 Milhões</td></tr>
                     </tbody>
                 </table>
@@ -111,7 +180,6 @@
                     <div class="bar-bg"><div class="bar-fill" id="progressFill"></div></div>
 
                     <div id="authBox">
-                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">Para garantir a integridade, autentique-se com sua conta de desenvolvedor.</p>
                         <button class="btn btn-github" id="btnSign">
                             <svg height="16" viewBox="0 0 16 16" width="16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
                             Assinar via GitHub API
@@ -123,10 +191,9 @@
         </div>
     </div>
 
-    <!-- Área da Lógica 1: Toasts -->
+    <!-- Modais e Notificações -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <!-- Área da Lógica 3: Funil de Conversão -->
     <div class="modal-overlay" id="donationModal">
         <div class="modal-content">
             <h3>🎉 Obrigado por assinar!</h3>
@@ -139,66 +206,54 @@
     </div>
 
     <script>
-        /* --- LÓGICA 2: META DINÂMICA E BOTÃO --- */
+        // Lógica Formulário Central
+        document.getElementById('formCriar').addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede recarregamento da página
+            document.getElementById('msgCriacao').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('msgCriacao').style.display = 'none';
+                this.reset();
+            }, 3500);
+        });
+
+        // Lógica Mantida: Assinatura, Termômetro e Funil
         let assinaturas = 842;
         let meta = 1000;
 
         document.getElementById('btnSign').addEventListener('click', function() {
             document.getElementById('authBox').style.display = 'none';
             document.getElementById('successBox').style.display = 'block';
-            
             assinaturas++;
             atualizarTermometro();
-
-            // Lógica 3: Abre o Modal de Funil após 1 segundo
-            setTimeout(() => {
-                document.getElementById('donationModal').style.display = 'flex';
-            }, 800);
+            setTimeout(() => { document.getElementById('donationModal').style.display = 'flex'; }, 800);
         });
 
         function atualizarTermometro() {
-            if (assinaturas >= meta) meta = meta * 2; // Dobra a meta se bater
-            
+            if (assinaturas >= meta) meta = meta * 2;
             document.getElementById('counter').innerText = assinaturas;
             document.getElementById('goal').innerText = meta;
-            
             let porcentagem = (assinaturas / meta) * 100;
             document.getElementById('progressFill').style.width = porcentagem + '%';
         }
 
-        function fecharModal() {
-            document.getElementById('donationModal').style.display = 'none';
-        }
+        function fecharModal() { document.getElementById('donationModal').style.display = 'none'; }
 
-        /* --- LÓGICA 1: PROVA SOCIAL (SIMULADOR DE NOTIFICAÇÕES) --- */
+        // Lógica Mantida: Prova Social
         const nomes = ["Lucas R.", "Maria S.", "DevOps_Master", "Kátia", "João Pedro", "Ana C.", "TechGuru"];
         const acoes = ["acabou de assinar!", "apoiou a causa.", "assinou via GitHub."];
 
         function mostrarNotificacao() {
             let nome = nomes[Math.floor(Math.random() * nomes.length)];
             let acao = acoes[Math.floor(Math.random() * acoes.length)];
-            
             let toast = document.createElement('div');
             toast.className = 'toast';
             toast.innerHTML = '<div class="toast-icon"></div> <span><strong>' + nome + '</strong> ' + acao + '</span>';
-            
             document.getElementById('toastContainer').appendChild(toast);
-            
-            // Animação de entrada
             setTimeout(() => toast.classList.add('show'), 100);
-            
-            // Faz a assinatura fictícia subir o termômetro lentamente
             assinaturas++;
             atualizarTermometro();
-
-            // Remove após 4 segundos
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 500);
-            }, 4000);
+            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 500); }, 4000);
         }
-
-        // Dispara uma notificação aleatória a cada 8 a 15 segundos
         setInterval(mostrarNotificacao, Math.floor(Math.random() * (15000 - 8000 + 1)) + 8000);
     </script>
 </body>
